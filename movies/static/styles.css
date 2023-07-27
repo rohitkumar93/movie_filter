@@ -1,0 +1,68 @@
+/* styles.css */
+/* Add your desired table styles here */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  margin-bottom: 20px;
+  align-items: center; /* Vertical alignment */
+  background-color: #f0f0f0;
+  border: 1px solid grey;
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #3d3d3d !important;
+  text-align: center;
+  height: 100%;
+  vertical-align: middle;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+img {
+  max-width: 100px;
+  max-height: 150px;
+}
+
+/* Additional styles for search and filter fields */
+.form-group {
+  margin-bottom: 10px;
+}
+
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.filter-form label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.filter-form select, .filter-form input[type="text"] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.filter-form button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.filter-form button:hover {
+  background-color: #0056b3;
+}

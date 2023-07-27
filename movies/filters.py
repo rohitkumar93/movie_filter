@@ -1,12 +1,6 @@
 import django_filters
-from .models import Movie
-import django_filters
-from django import forms
-import django_filters
 from django import forms
 
-from django import forms
-from django_filters import FilterSet, CharFilter, MultipleChoiceFilter
 from .models import Movie
 
 
@@ -62,4 +56,4 @@ class MovieFilter(django_filters.FilterSet):
 
     class Meta:
         model = Movie
-        fields = ['genre']  # Add other fields if needed
+        fields = ['genre']

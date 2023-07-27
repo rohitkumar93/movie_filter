@@ -1,108 +1,8 @@
-{#{% extends "base.html" %}#}
-{##}
-{#{% block content %}#}
-{#    <h1>Movies List</h1>#}
-{##}
-{# Display the filters #}
-{#    <form method="get">#}
-{#        {{ filter.form.as_p }}#}
-{#        <button type="submit">Apply Filter</button>#}
-{#    </form>#}
-{##}
-{#    <table class="table table-striped">#}
-{#        <thead>#}
-{#        <tr>#}
-{#            <th>Title</th>#}
-{#            <th>Poster</th>#}
-{#            <th>Genre</th>#}
-{#            <th>Rating</th>#}
-{#            <th>Year Release</th>#}
-{#            <th>Metacritic Rating</th>#}
-{#            <th>Runtime</th>#}
-{#        </tr>#}
-{#        </thead>#}
-{#        <tbody>#}
-{#        {% for movie in filter.qs %}#}
-{#            <tr>#}
-{#                <td>{{ movie.title }}</td>#}
-{#                <td><img style="height: 15vw;width: 15vw" src="{{ movie.poster }}" alt={{  movie.title}} /></td>#}
-{#                <td>{{ movie.genre|join:", " }}</td>#}
-{#                <td>{{ movie.rating }}</td>#}
-{#                <td>{{ movie.release }}</td>#}
-{#                <td>{{ movie.meta_score }}</td>#}
-{#                <td>{{ movie.runtime }}</td>#}
-{#            </tr>#}
-{#        {% endfor %}#}
-{#        </tbody>#}
-{#    </table>#}
-{##}
-{#    {% if is_paginated %}#}
-{#        <div class="pagination">#}
-{#            <span class="step-links">#}
-{#                {% if page_obj.has_previous %}#}
-{#                    <a href="?page=1">&laquo; first</a>#}
-{#                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>#}
-{#                {% endif %}#}
-{##}
-{#                <span class="current">#}
-{#                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
-{#                </span>#}
-{##}
-{#                {% if page_obj.has_next %}#}
-{#                    <a href="?page={{ page_obj.next_page_number }}">next</a>#}
-{#                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>#}
-{#                {% endif %}#}
-{#            </span>#}
-{#        </div>#}
-{#    {% endif %}#}
-{#{% endblock %}#}
-
-
-<!-- movie_list.html -->
-{##}
-{#{% extends 'base.html' %}#}
-{##}
-{#{% block content %}#}
-{#  <form method="get">#}
-{#    {{ filter.form.as_p }}#}
-{#    <button type="submit">Apply Filter</button>#}
-{#  </form>#}
-{##}
-{#  <table>#}
-{#    <thead>#}
-{#      <tr>#}
-{#        <th>Title</th>#}
-{#        <th>Year</th>#}
-{#        <th>Rated</th>#}
-{#        <th>Released</th>#}
-{#        <th>Runtime</th>#}
-{#        <th>Genre</th>#}
-{#        <th>Director</th>#}
-{#        <th>Writer</th>#}
-{#      </tr>#}
-{#    </thead>#}
-{#    <tbody>#}
-{#      {% for movie in filter.qs %}#}
-{#        <tr>#}
-{#          <td>{{ movie.title }}</td>#}
-{#          <td>{{ movie.year }}</td>#}
-{#          <td>{{ movie.rated }}</td>#}
-{#          <td>{{ movie.released }}</td>#}
-{#          <td>{{ movie.runtime }}</td>#}
-{#          <td>{{ movie.genre }}</td>#}
-{#          <td>{{ movie.director }}</td>#}
-{#          <td>{{ movie.writer }}</td>#}
-{#          <td>#}
-{#            <!-- Add actions here if needed -->#}
-{#          </td>#}
-{#        </tr>#}
-{#      {% endfor %}#}
-{#    </tbody>#}
-{#  </table>#}
-{#{% endblock %}#}
-
 
 {% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="styles.css">
+{% load static %}
 {% load django_tables2 %}
 {% load bootstrap4 %}
 
@@ -110,7 +10,7 @@
     <div class="container mt-5">
         <form method="get" action="">
             <label for="id_genre">Genre:</label>
-            <select name="genre" id="id_genre" multiple style="height:75vh">
+            <select name="genre" id="id_genre" multiple >
                 {% for genre_choice in genre_choices %}
                     <option value="{{ genre_choice }}">{{ genre_choice }}</option>
                 {% endfor %}
@@ -200,32 +100,23 @@
 
     </div>
     <script>
-      // replacing the post img urls with imgs with the text as src.
-      // I need little more time to do this with django instead of stopgap code like this
       const anchorTags = document.querySelectorAll('table td a');
 
-      // Loop through each anchor tag
       anchorTags.forEach(anchorTag => {
-        // Get the text content of the anchor tag (movie title)
         const title = anchorTag.textContent;
 
-        // Get the URL of the anchor tag (href attribute)
         const url = anchorTag.getAttribute('href');
 
-        // Create an image element
         const imgElement = document.createElement('img');
 
-        // Set the src and alt attributes of the image
         imgElement.setAttribute('src', url);
         imgElement.setAttribute('alt', "No Image found");
 
-        // Replace the anchor tag with the image element
         anchorTag.parentNode.replaceChild(imgElement, anchorTag);
       });
 
       const tdElements = document.querySelectorAll('table td:nth-of-type(3)');
 
-      // Loop through each <td> element and trim its content
       tdElements.forEach(tdElement => {
         {#const trimmedText = tdElement.textContent.trim();#}
         const trimmedText = tdElement.textContent.replace(/[\[\]']/g, "");;
@@ -233,19 +124,16 @@
       });
 
       function submitFilterForm() {
-        // Delay form submission to allow user to select multiple checkboxes
         setTimeout(function () {
           document.getElementById('filter-form').submit();
         }, 100);
       }
 
-      // Function to get URL parameters
       function getUrlParams(url) {
         const params = new URLSearchParams(url);
         const paramsObj = {};
         for (const pair of params.entries()) {
           const [key, value] = pair;
-          // For 'genre' parameter, add values to an array instead of overwriting
           if (key === 'genre') {
             if (paramsObj[key]) {
               paramsObj[key].push(value);
@@ -259,7 +147,6 @@
         return paramsObj;
       }
 
-      // Function to check the appropriate checkboxes based on URL parameters
       function checkCheckboxes() {
         const urlParams = getUrlParams(window.location.search);
         const checkboxes = document.querySelectorAll('input[type="checkbox"][name="genre"]');
@@ -268,7 +155,68 @@
         });
       }
 
-      // Check checkboxes when the page loads
       checkCheckboxes();
     </script>
 {% endblock %}
+
+
+
+
+{#{% extends "base.html" %}#}
+{##}
+{#{% block content %}#}
+{#    <h1>Movies List</h1>#}
+{##}
+{# Display the filters #}
+{#    <form method="get">#}
+{#        {{ filter.form.as_p }}#}
+{#        <button type="submit">Apply Filter</button>#}
+{#    </form>#}
+{##}
+{#    <table class="table table-striped">#}
+{#        <thead>#}
+{#        <tr>#}
+{#            <th>Title</th>#}
+{#            <th>Poster</th>#}
+{#            <th>Genre</th>#}
+{#            <th>Rating</th>#}
+{#            <th>Year Release</th>#}
+{#            <th>Metacritic Rating</th>#}
+{#            <th>Runtime</th>#}
+{#        </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+{#        {% for movie in filter.qs %}#}
+{#            <tr>#}
+{#                <td>{{ movie.title }}</td>#}
+{#                <td><img style="height: 15vw;width: 15vw" src="{{ movie.poster }}" alt={{  movie.title}} /></td>#}
+{#                <td>{{ movie.genre|join:", " }}</td>#}
+{#                <td>{{ movie.rating }}</td>#}
+{#                <td>{{ movie.release }}</td>#}
+{#                <td>{{ movie.meta_score }}</td>#}
+{#                <td>{{ movie.runtime }}</td>#}
+{#            </tr>#}
+{#        {% endfor %}#}
+{#        </tbody>#}
+{#    </table>#}
+{##}
+{#    {% if is_paginated %}#}
+{#        <div class="pagination">#}
+{#            <span class="step-links">#}
+{#                {% if page_obj.has_previous %}#}
+{#                    <a href="?page=1">&laquo; first</a>#}
+{#                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>#}
+{#                {% endif %}#}
+{##}
+{#                <span class="current">#}
+{#                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
+{#                </span>#}
+{##}
+{#                {% if page_obj.has_next %}#}
+{#                    <a href="?page={{ page_obj.next_page_number }}">next</a>#}
+{#                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>#}
+{#                {% endif %}#}
+{#            </span>#}
+{#        </div>#}
+{#    {% endif %}#}
+{#{% endblock %}#}
