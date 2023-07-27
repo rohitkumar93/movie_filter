@@ -1,0 +1,30 @@
+{% load render_table from django_tables2 %}
+{% load bootstrap4 %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movies Table</title>
+    {% bootstrap_css %}
+</head>
+<body>
+<form method="get">
+    {{ movie_filter.form.as_p }}
+    <button type="submit">Filter</button>
+</form>
+
+<input type="text" id="searchInput" placeholder="Search...">
+{% render_table table %}
+
+{% bootstrap_javascript jquery='full' %}
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const filterForm = document.querySelector('form');
+
+  searchInput.addEventListener('keyup', function () {
+    console.log('filterForm',filterForm)
+    filterForm.dispatchEvent(new Event('submit'));
+  });
+</script>
+</body>
+</html>
