@@ -3,6 +3,7 @@ from django.shortcuts import render
 
 from .models import Movie
 
+
 class MovieTable(tables.Table):
     class Meta:
         model = Movie

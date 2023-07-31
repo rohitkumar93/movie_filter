@@ -5,9 +5,12 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
+from rest_framework import viewsets
+from rest_framework.generics import RetrieveAPIView
 
 from .filters import MovieFilter
 from .models import Movie
+from .serializers import MovieSerializer
 from .tables import MovieTable
 
 
@@ -15,6 +18,7 @@ from .tables import MovieTable
 
 def clear_filters(request):
     return redirect('movies-list')
+
 
 def fetch_and_save_movies(request):
     url = 'http://127.0.0.1:3000/movies'
@@ -75,7 +79,6 @@ def fetch_and_save_movies(request):
     return render(request, 'success.html')
 
 
-
 genre_choices = [
     "War",
     "Animation",
@@ -127,3 +130,13 @@ class MovieListView(SingleTableView, FilterView):
         context['genre_choices'] = unique_genres
         print('context', context['genre_choices'])
         return context
+
+
+class MovieViewSet(viewsets.ModelViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+
+
+class MovieDetailView(RetrieveAPIView):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer

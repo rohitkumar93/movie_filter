@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 {% load static %}
 <link rel="stylesheet" type="text/css" href="styles.css">
@@ -10,7 +9,7 @@
     <div class="container mt-5">
         <form method="get" action="">
             <label for="id_genre">Genre:</label>
-            <select name="genre" id="id_genre" multiple >
+            <select name="genre" id="id_genre" multiple>
                 {% for genre_choice in genre_choices %}
                     <option value="{{ genre_choice }}">{{ genre_choice }}</option>
                 {% endfor %}
@@ -119,7 +118,8 @@
 
       tdElements.forEach(tdElement => {
         {#const trimmedText = tdElement.textContent.trim();#}
-        const trimmedText = tdElement.textContent.replace(/[\[\]']/g, "");;
+        const trimmedText = tdElement.textContent.replace(/[\[\]']/g, "");
+        ;
         tdElement.textContent = trimmedText;
       });
 

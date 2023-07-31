@@ -20,7 +20,6 @@ class CheckboxSelectMultipleWithAll(forms.CheckboxSelectMultiple):
         return option
 
 
-
 GENRE_CHOICES = [
     ('War', 'War'),
     ('Animation', 'Animation'),
@@ -45,8 +44,7 @@ GENRE_CHOICES = [
 
 
 class MovieFilter(django_filters.FilterSet):
-
-    print('GENRE_CHOICES',GENRE_CHOICES)
+    print('GENRE_CHOICES', GENRE_CHOICES)
     genre = django_filters.MultipleChoiceFilter(
         field_name='genre',
         widget=CheckboxSelectMultipleWithAll,

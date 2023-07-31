@@ -39,43 +39,43 @@
 <script>
   const searchInput = document.getElementById('searchInput');
 
-searchInput.addEventListener('keyup', function() {
+  searchInput.addEventListener('keyup', function () {
     const searchString = searchInput.value.trim().toLowerCase();
     const filteredMovies = movieData.filter(movie =>
         movie.title.toLowerCase().includes(searchString) ||
         movie.genre.toLowerCase().includes(searchString)
-        // Add more fields to search in, if needed
+      // Add more fields to search in, if needed
     );
     buildTable(filteredMovies); // Rebuild the table with filtered data
-});
+  });
 
 
-const filterSelect = document.getElementById('filterSelect');
+  const filterSelect = document.getElementById('filterSelect');
 
-filterSelect.addEventListener('change', function() {
+  filterSelect.addEventListener('change', function () {
     const selectedGenre = filterSelect.value;
     const filteredMovies = movieData.filter(movie =>
-        selectedGenre === '' || movie.genre.toLowerCase() === selectedGenre.toLowerCase()
+      selectedGenre === '' || movie.genre.toLowerCase() === selectedGenre.toLowerCase()
     );
     buildTable(filteredMovies); // Rebuild the table with filtered data
-});
+  });
 
 
-const tableBody = document.getElementById('tableBody');
+  const tableBody = document.getElementById('tableBody');
 
-function buildTable(data) {
+  function buildTable(data) {
     tableBody.innerHTML = '';
 
     data.forEach(movie => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
+      const row = document.createElement('tr');
+      row.innerHTML = `
             <td>${movie.title}</td>
             <td>${movie.genre}</td>
             <!-- Add more table cells for other movie data -->
         `;
-        tableBody.appendChild(row);
+      tableBody.appendChild(row);
     });
-}
+  }
 
 
   let movieData; // Global variable to store the JSON data
@@ -86,7 +86,7 @@ function buildTable(data) {
       movieData = data;
       console.log(movieData)
 
-      for(let i=0;i<10;i++) {
+      for (let i = 0; i < 10; i++) {
         buildTable(movieData); // Call the function to build the initial table
       }
     })
